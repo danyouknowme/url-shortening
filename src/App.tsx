@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Header from './components/Header';
 import Menu from './components/Menu';
 import Navbar from './components/Navbar';
 
@@ -9,6 +10,7 @@ const App = () => {
     <div className="App">
       <Navbar openMenu={openMenu} setOpenMenu={setOpenMenu} />
       <Menu openMenu={openMenu} setOpenMenu={setOpenMenu} />
+      <Header />
     </div>
   );
 }
