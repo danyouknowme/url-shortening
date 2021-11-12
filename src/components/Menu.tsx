@@ -2,10 +2,12 @@ import { MenuProps } from '../types/MenuProps';
 import styled from 'styled-components';
 
 const Container = styled.div`
+    position: absolute;
+    top: 100px;
     display: none;
     width: 100%;
-    height: 100%;
     justify-content: center;
+    z-index: 3;
     @media (max-width: 375px) {
         display: flex;
     }
