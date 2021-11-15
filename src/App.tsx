@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Content from './components/Content';
 import Header from './components/Header';
+import Link from './components/Link';
 import Menu from './components/Menu';
 import Navbar from './components/Navbar';
 
@@ -13,6 +14,7 @@ const App = () => {
       <Menu openMenu={openMenu} setOpenMenu={setOpenMenu} />
       <Header />
       <Content />
+      <Link />
     </div>
   );
 }
