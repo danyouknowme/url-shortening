@@ -103,6 +103,7 @@ const CardContainer = styled.div`
     display: flex;
     justify-content: center;
     position: relative;
+    padding-bottom: 50px;
     @media (max-width: 375px) {
         flex-direction: column;
         padding-bottom: 70px;
