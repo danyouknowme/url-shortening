@@ -46,6 +46,9 @@ const LogoContainer = styled(SVG)<SVGProps>`
     & path {
         fill: ${({ color }) => color};
     }
+    &:hover path {
+        fill: hsl(180, 66%, 49%);
+    }
     @media (max-width: 375px) {
             margin: ${({ attrs }) => attrs === 'title' ? '40px auto 0px': '20px 10px'};
     }
@@ -79,6 +82,9 @@ const Title = styled.span`
 const Link = styled.span`
     margin-bottom: 7px;
     color: hsl(0, 0%, 75%);
+    &:hover {
+        color: hsl(180, 66%, 49%);
+    }
 `;
 
 const Social = styled.div`

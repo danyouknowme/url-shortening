@@ -35,6 +35,10 @@ const Button = styled.a`
 	font-weight: 700;
     color: white;
     cursor: pointer;
+	user-select: none;
+	&:active {
+		opacity: 0.7;
+	}
 `;
 
 const Link = () => {
