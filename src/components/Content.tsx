@@ -151,7 +151,7 @@ const Logo = styled.img`
 
 const HorizontalLine = styled.div`
     position: absolute;
-    top: 50%;
+    top: 40%;
     width: 80%;
     height: 8px;
     background-color: hsl(180, 66%, 49%);
