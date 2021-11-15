@@ -35,7 +35,6 @@ const Jumbotron = styled.div`
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    cursor: pointer;
     @media (max-width: 375px) {
         flex-direction: column;
     }
@@ -43,6 +42,7 @@ const Jumbotron = styled.div`
 
 const LogoContainer = styled(SVG)<SVGProps>`
     margin-left: 20px;
+    cursor: pointer;
     & path {
         fill: ${({ color }) => color};
     }
@@ -82,6 +82,7 @@ const Title = styled.span`
 const Link = styled.span`
     margin-bottom: 7px;
     color: hsl(0, 0%, 75%);
+    cursor: pointer;
     &:hover {
         color: hsl(180, 66%, 49%);
     }
