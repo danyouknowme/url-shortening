@@ -10,7 +10,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
 	width: 100vw;
-	min-height: 70vh;
+	min-height: 90vh;
 	background-color: white;
 	display: flex;
 	align-items: center;
@@ -19,6 +19,8 @@ const Wrapper = styled.div`
 	@media (max-width: 375px) {
 		position: static;
 		flex-direction: column-reverse;
+		min-height: 100vh;
+		justify-content: flex-end;
 	}
 `;
 
