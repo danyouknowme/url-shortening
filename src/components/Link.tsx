@@ -22,6 +22,9 @@ const Text = styled.h1`
 	margin-bottom: 20px;
 	font-size: 2.3rem;
 	color: white;
+	@media (max-width: 375px) {
+		font-size: 1.7rem;
+	}
 `;
 
 const Button = styled.a`
