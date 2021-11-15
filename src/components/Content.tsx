@@ -41,23 +41,36 @@ const Input = styled.div`
     }
 `;
 
-const InputTag = styled.input`
+const InputTag = styled.input<{ link: Boolean }>`
     font-size: 1rem;
     width: 70%;
     height: 40%;
     margin-right: 10px;
     border-radius: 10px;
     padding: 20px;
-    border: 2px solid white;
+    border: ${({ link }) => !link ? '2px solid white' : '2px solid rgba(255, 0, 0, 0.7)'};
     &:focus {
         outline: none;
     }
-    &:placeholder {
-        opacity: 0.5;
+    &::placeholder {
+        opacity: 0.8;
+        color: ${({ link }) => !link ? 'grey' : 'rgba(255, 0, 0, 0.7)'};
     }
     @media (max-width: 375px) {
         width: 90%;
         margin: 0;
+    }
+`;
+
+const WarnningMessage = styled.span<{ link: Boolean }>`
+    display: ${({ link }) => !link ? 'none' : 'block'};
+    position: absolute;
+    left: 7%;
+    bottom: 10%;
+    font-style: italic;
+    color: rgba(255,102,102,0.8);
+    @media (max-width: 375px) {
+        display: none;
     }
 `;
 
@@ -85,19 +98,20 @@ const Title = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 70px 0;
+    margin: 100px 0 80px;
     @media (max-width: 375px) {
         margin-bottom: 100px;
     }
 `;
 
 const TitleText = styled.h1`
-
+    color: hsl(255, 11%, 22%);
 `;
 
 const TitleDesc = styled.span`
     width: 65%;
     text-align: center;
+    color: hsl(257, 7%, 63%);
 `;
 
 const CardContainer = styled.div`
@@ -177,6 +191,7 @@ const VerticalLine = styled.div`
 const CardText = styled.h2`
     width: 80%;
     margin: 20px 0;
+    color: hsl(255, 11%, 22%);
     @media (max-width: 375px) {
         text-align: center;
     }
@@ -184,6 +199,7 @@ const CardText = styled.h2`
 
 const CardDesc = styled.span`
     width: 80%;
+    color: hsl(257, 7%, 63%);
     @media (max-width: 375px) {
         text-align: center;
     }
@@ -218,6 +234,7 @@ const WebLink = styled.div`
 `;
 
 const OriginalLink = styled.span`
+    color: hsl(260, 8%, 14%);
     @media (max-width: 375px) {
         width: 100%;
         border-bottom: 2px solid rgba(0, 0, 0, 0.1);
@@ -261,17 +278,29 @@ const CopyButton = styled.button<{selected: Boolean}>`
 const Content = () => {
     const [copyText, setCopyText] = useState<String>("Copy");
     const [isClickCopy, setIsClickCopy] = useState<Boolean>(false);
+    const [originnalLink, setOriginnalLink] = useState<String>("");
+    const [invalidLink, setInvalidLink] = useState<Boolean>(false);
+
     const toggleCopyButton = () => {
         setCopyText("Copied!");
         setIsClickCopy(true);
     }
 
+    const toggleSubmitButton = () => {
+        if (!originnalLink) {
+            setInvalidLink(true);
+        } else {
+            setInvalidLink(false);
+        }
+    }
+    
     return (
         <Container>
             <Wrapper>
                 <Input>
-                    <InputTag placeholder="Shorten a link here...   " />
-                    <Button>Shorten it!</Button>
+                    <InputTag link={invalidLink} placeholder="Shorten a link here..." onChange={(e) => setOriginnalLink(e.target.value)} />
+                    <Button onClick={toggleSubmitButton}>Shorten it!</Button>
+                    <WarnningMessage link={invalidLink}>Please add a link</WarnningMessage>
                 </Input>
                 <WebContainer>
                     <WebLink>
