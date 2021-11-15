@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import Brand from '../images/icon-brand-recognition.svg';
 import Detail from '../images/icon-detailed-records.svg';
 import Fully from '../images/icon-fully-customizable.svg';
 import Working from '../images/bg-boost-desktop.svg';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 const Container = styled.div`
     width: 100%;
@@ -84,7 +85,7 @@ const Title = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 130px;
+    margin: 70px 0;
     @media (max-width: 375px) {
         margin-bottom: 100px;
     }
@@ -188,7 +189,83 @@ const CardDesc = styled.span`
     }
 `;
 
+const WebContainer = styled.div`
+    width: 70%;
+    height: 100%;
+    margin-top: 90px;
+    @media (max-width: 375px) {
+        width: 90vw;
+    }
+`;
+
+const WebLink = styled.div`
+    width: 100%;
+    height: 60px;
+    margin-top: 15px;
+    background-color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    border-radius: 5px;
+    font-size: 18px;
+    @media (max-width: 375px) {
+        flex-direction: column;
+        padding: 0;
+        height: 100%;
+    }
+`;
+
+const OriginalLink = styled.span`
+    @media (max-width: 375px) {
+        width: 100%;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+    }
+`;
+
+const ShortLink = styled.span`
+    margin-right: 25px;
+    color: hsl(180, 66%, 49%);
+    font-size: 18px;
+    @media (max-width: 375px) {
+        margin: 10px 0;
+    }
+`;
+
+const CopyLink = styled.div`
+    @media (max-width: 375px) {
+        display: flex;
+        flex-direction: column;
+        width: 85%;
+    }
+`;
+
+const CopyButton = styled.button<{selected: Boolean}>`
+    text-align: center;
+    width: 100px;
+    height: 37px;
+    color: white;
+    background-color: ${({ selected }) => !selected? 'hsl(180, 66%, 49%)' : 'hsl(257, 27%, 26%)'};
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    @media (max-width: 375px) {
+        margin-bottom: 15px;
+        width: 100%;
+    }
+`;
+
 const Content = () => {
+    const [copyText, setCopyText] = useState<String>("Copy");
+    const [isClickCopy, setIsClickCopy] = useState<Boolean>(false);
+    const toggleCopyButton = () => {
+        setCopyText("Copied!");
+        setIsClickCopy(true);
+    }
+
     return (
         <Container>
             <Wrapper>
@@ -196,6 +273,17 @@ const Content = () => {
                     <InputTag placeholder="Shorten a link here...   " />
                     <Button>Shorten it!</Button>
                 </Input>
+                <WebContainer>
+                    <WebLink>
+                        <OriginalLink>www.facebook.com</OriginalLink>
+                        <CopyLink>
+                            <ShortLink>www.face.com</ShortLink>
+                            <CopyToClipboard text="www.face.com">
+                                <CopyButton selected={isClickCopy} onClick={toggleCopyButton}>{copyText}</CopyButton>
+                            </CopyToClipboard>
+                        </CopyLink>
+                    </WebLink>
+                </WebContainer>
                 <Title>
                     <TitleText>Advanced Statistics</TitleText>
                     <TitleDesc>Track how your links are performing across the web with our advanced statistics dashbord.</TitleDesc>
