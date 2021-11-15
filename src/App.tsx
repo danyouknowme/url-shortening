@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Content from './components/Content';
+import Footer from './components/Footer';
 import Header from './components/Header';
 import Link from './components/Link';
 import Menu from './components/Menu';
@@ -15,6 +16,7 @@ const App = () => {
       <Header />
       <Content />
       <Link />
+      <Footer />
     </div>
   );
 }
