@@ -5,6 +5,8 @@ import Detail from '../images/icon-detailed-records.svg';
 import Fully from '../images/icon-fully-customizable.svg';
 import Working from '../images/bg-boost-desktop.svg';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { WebsiteProps } from '../types/WebsiteProps';
+import axios from 'axios';
 
 const Container = styled.div`
     width: 100%;
@@ -280,17 +282,38 @@ const Content = () => {
     const [isClickCopy, setIsClickCopy] = useState<Boolean>(false);
     const [originnalLink, setOriginnalLink] = useState<String>("");
     const [invalidLink, setInvalidLink] = useState<Boolean>(false);
+    const [usedLink, setUsedLink] = useState<WebsiteProps[]>([]);
+    const [warnningMessage, setWarningMessage] = useState<String>("");
 
     const toggleCopyButton = () => {
         setCopyText("Copied!");
         setIsClickCopy(true);
+        setTimeout(() => {
+            setCopyText("Copy");
+            setIsClickCopy(false);
+        }, 3000);
     }
 
-    const toggleSubmitButton = () => {
+    const toggleSubmitButton = async () => {
         if (!originnalLink) {
             setInvalidLink(true);
+            setWarningMessage("Please add a link")
         } else {
             setInvalidLink(false);
+            await axios.get(`https://api.shrtco.de/v2/shorten?url=${originnalLink}`)
+                    .then((response) => {
+                        setUsedLink([
+                            {
+                                originalUrl: response.data.result.original_link,
+                                shortUrl: response.data.result.full_short_link
+                            }
+                            , ...usedLink
+                        ]);
+                    })
+                    .catch(() => {
+                        setInvalidLink(true);
+                        setWarningMessage("Please enter the valid link");
+                    });
         }
     }
     
@@ -300,18 +323,20 @@ const Content = () => {
                 <Input>
                     <InputTag link={invalidLink} placeholder="Shorten a link here..." onChange={(e) => setOriginnalLink(e.target.value)} />
                     <Button onClick={toggleSubmitButton}>Shorten it!</Button>
-                    <WarnningMessage link={invalidLink}>Please add a link</WarnningMessage>
+                    <WarnningMessage link={invalidLink}>{warnningMessage}</WarnningMessage>
                 </Input>
                 <WebContainer>
-                    <WebLink>
-                        <OriginalLink>www.facebook.com</OriginalLink>
-                        <CopyLink>
-                            <ShortLink>www.face.com</ShortLink>
-                            <CopyToClipboard text="www.face.com">
-                                <CopyButton selected={isClickCopy} onClick={toggleCopyButton}>{copyText}</CopyButton>
-                            </CopyToClipboard>
-                        </CopyLink>
-                    </WebLink>
+                    {usedLink.map((data: WebsiteProps) => (
+                        <WebLink key={usedLink.indexOf(data)}>
+                            <OriginalLink>{data.originalUrl}</OriginalLink>
+                            <CopyLink>
+                                <ShortLink>{data.shortUrl}</ShortLink>
+                                <CopyToClipboard text={data.shortUrl}>
+                                    <CopyButton selected={isClickCopy} onClick={toggleCopyButton}>{copyText}</CopyButton>
+                                </CopyToClipboard>
+                            </CopyLink>
+                        </WebLink>
+                    ))}
                 </WebContainer>
                 <Title>
                     <TitleText>Advanced Statistics</TitleText>
